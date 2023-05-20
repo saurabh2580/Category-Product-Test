@@ -1,0 +1,57 @@
+package com.api.nimapinfotechTest.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.nimapinfotechTest.model.Product;
+import com.api.nimapinfotechTest.service.ProductService;
+
+@RestController
+public class ProductController {
+
+	@Autowired
+	private ProductService service;
+
+	@GetMapping("/api/products?page=2")
+	public ResponseEntity<List<Product>> getAllProduct() {
+		List<Product> allProduct = this.service.getAllProduct();
+		return ResponseEntity.ok(allProduct);
+	}
+
+	@PostMapping("/api/products")
+	public ResponseEntity<Product> createProduct(@RequestBody Product pro) {
+		Product createProduct = this.service.createProduct(pro);
+		return new ResponseEntity<Product>(createProduct, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/api/products/{pId}")
+	public ResponseEntity<Product> getProductById(@PathVariable Integer pId) throws NotFoundException {
+		Product getProduct = this.service.getProductById(pId);
+		return new ResponseEntity<Product>(getProduct, HttpStatus.OK);
+	}
+
+	@PutMapping("/api/products/{pId}")
+	public ResponseEntity<Product> updateProductById(@PathVariable Integer pId, @RequestBody Product pro)
+			throws NotFoundException {
+		Product updateProduct = this.service.updateProductById(pId, pro);
+		return new ResponseEntity<Product>(updateProduct, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/api/products/{pId}")
+	public ResponseEntity<String> deleteProductById(@PathVariable Integer cId) throws NotFoundException {
+		this.service.deleteProductById(cId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+}
