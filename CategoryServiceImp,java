@@ -1,0 +1,53 @@
+
+package com.api.nimapinfotechTest.service.imp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.api.nimapinfotechTest.model.Category;
+import com.api.nimapinfotechTest.repository.CategoryRepo;
+import com.api.nimapinfotechTest.service.CategoryService;
+
+@Service
+public class CategoryServiceImp implements CategoryService {
+
+	@Autowired
+	private CategoryRepo repo;
+
+	@Override
+	public List<Category> getAllCategory() {
+		List<Category> list = this.repo.findAll();
+		return list;
+	}
+
+	@Override
+	public Category createCategory(Category cat) {
+		this.repo.save(cat);
+		return null;
+	}
+
+	@Override
+	public Category updateCategory(Integer cId, Category updateCat) throws NotFoundException {
+		Category existingCategory = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
+		existingCategory.setCategoryName(updateCat.getCategoryName());
+		existingCategory.setCategoryAbout(updateCat.getCategoryAbout());
+		repo.save(existingCategory);
+		return existingCategory;
+	}
+
+	@Override
+	public Category getCategoryById(Integer cId) throws NotFoundException {
+		Category cat = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
+		return cat;
+	}
+
+	@Override
+	public void deleteCategory(Integer cId) throws NotFoundException {
+		Category pro = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
+		repo.delete(pro);
+	}
+
+}
