@@ -1,73 +1,59 @@
 package com.api.nimapinfotechTest.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "categories")
 public class Category {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer cId;
-	private String CategoryName;
-	private String CategoryAbout;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
+	private String about;
 
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
-	private Set<Product> product;
-
-	public Set<Product> getProduct(Set<Product> product) {
-		return product;
-	}
-
-	public void setProduct(Set<Product> product) {
-		this.product = product;
-	}
-
-	public Category(Integer cId, String categoryName, String categoryAbout) {
-		super();
-		this.cId = cId;
-		this.CategoryName = categoryName;
-		this.CategoryAbout = categoryAbout;
-	}
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Product> products = new ArrayList<>();
 
 	public Category() {
-		super();
 	}
 
-	public Integer getcId() {
-		return cId;
+	public Category(String name, String about) {
+		this.name = name;
+		this.about = about;
 	}
 
-	public void setcId(Integer cId) {
-		this.cId = cId;
+	public Long getId() {
+		return id;
 	}
 
-	public String getCategoryName() {
-		return CategoryName;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setCategoryName(String categoryName) {
-		CategoryName = categoryName;
+	public String getName() {
+		return name;
 	}
 
-	public String getCategoryAbout() {
-		return CategoryAbout;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setCategoryAbout(String categoryAbout) {
-		CategoryAbout = categoryAbout;
+	public String getAbout() {
+		return about;
 	}
 
-	@Override
-	public String toString() {
-		return "Category [cId=" + cId + ", CategoryName=" + CategoryName + ", CategoryAbout=" + CategoryAbout + "]";
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 }
