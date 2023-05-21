@@ -6,16 +6,16 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import com.api.nimapinfotechTest.model.Category;
 
-public interface CategoryService {
+public interface CategoryServiceIn {
 
-	public List<Category> getAllCategory(); // get
+	public Category createCategory(Category cat); // create
 
-	public Category createCategory(Category ca); // create
+	public Category getCategoryById(Long categoryId) throws NotFoundException;
 
-	public Category updateCategory(Integer cId, Category ca) throws NotFoundException; // update
+	public void deleteCategory(Long categoryId) throws NotFoundException;
 
-	public Category getCategoryById(Integer cId) throws NotFoundException; // getById
+	public Category updateCategory(Long categoryId, Category categoryDetails) throws NotFoundException;
 
-	public void deleteCategory(Integer cId) throws NotFoundException; // deleteById
+	public List<Category> getAllCategories();
 
 }
