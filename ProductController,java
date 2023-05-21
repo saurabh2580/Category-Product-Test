@@ -53,4 +53,10 @@ public class ProductController {
 		Page<Product> list = this.productService.productwithPage(offset, pageSize);
 		return new ResponseEntity<Page<Product>>(list,HttpStatus.OK);
 	}
+	
+	@GetMapping("/{offset}/{pageSize/{fi}/{field}")
+	public ResponseEntity<Page<Product>> productwithPageShort(@PathVariable int offset, @PathVariable int pageSize, @PathVariable  String field) {
+		Page<Product> list = this.productService.productwithPageShort(offset, pageSize, field);
+		return new ResponseEntity<Page<Product>>(list,HttpStatus.OK);
+	}
 }
