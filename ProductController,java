@@ -1,57 +1,50 @@
 package com.api.nimapinfotechTest.controller;
 
-import java.util.List;
-
+import com.api.nimapinfotechTest.model.dto.ProductDTO;
+import com.api.nimapinfotechTest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.api.nimapinfotechTest.model.Product;
-import com.api.nimapinfotechTest.service.ProductService;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/products")
 public class ProductController {
 
 	@Autowired
-	private ProductService service;
+	private ProductService productService;
 
-	@GetMapping("/api/products?page=2")
-	public ResponseEntity<List<Product>> getAllProduct() {
-		List<Product> allProduct = this.service.getAllProduct();
-		return ResponseEntity.ok(allProduct);
+	@GetMapping
+	public ResponseEntity<List<ProductDTO>> getAllProducts() {
+		List<ProductDTO> products = productService.getAllProducts();
+		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	@PostMapping("/api/products")
-	public ResponseEntity<Product> createProduct(@RequestBody Product pro) {
-		Product createProduct = this.service.createProduct(pro);
-		return new ResponseEntity<Product>(createProduct, HttpStatus.CREATED);
+	@GetMapping("/{id}")
+	public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") Integer productId) throws NotFoundException {
+		ProductDTO product = productService.getProductById(productId);
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
-	@GetMapping("/api/products/{pId}")
-	public ResponseEntity<Product> getProductById(@PathVariable Integer pId) throws NotFoundException {
-		Product getProduct = this.service.getProductById(pId);
-		return new ResponseEntity<Product>(getProduct, HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO product) throws NotFoundException {
+		ProductDTO createdProduct = productService.createProduct(product);
+		return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/api/products/{pId}")
-	public ResponseEntity<Product> updateProductById(@PathVariable Integer pId, @RequestBody Product pro)
-			throws NotFoundException {
-		Product updateProduct = this.service.updateProductById(pId, pro);
-		return new ResponseEntity<Product>(updateProduct, HttpStatus.OK);
+	@PutMapping("/{id}")
+	public ResponseEntity<ProductDTO> updateProduct(@PathVariable("id") Integer productId,
+			@RequestBody ProductDTO productDetails) throws NotFoundException {
+		ProductDTO updatedProduct = productService.updateProduct(productId, productDetails);
+		return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/api/products/{pId}")
-	public ResponseEntity<String> deleteProductById(@PathVariable Integer cId) throws NotFoundException {
-		this.service.deleteProductById(cId);
-		return new ResponseEntity<>(HttpStatus.OK);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer productId) throws NotFoundException {
+		productService.deleteProduct(productId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-
 }
