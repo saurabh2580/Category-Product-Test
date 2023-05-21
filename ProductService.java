@@ -19,5 +19,7 @@ public interface ProductService {
 	public void deleteProduct(Integer productId) throws NotFoundException;
 
 	public Page<Product> productwithPage(int offset, int pageSize);
+	
+	public Page<Product> productwithPageShort(int offset, int pageSize,String field);
 
 }
