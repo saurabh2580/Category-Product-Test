@@ -47,4 +47,10 @@ public class ProductController {
 		productService.deleteProduct(productId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	//pagination
+	@GetMapping("/{offset}/{pageSize")
+	public ResponseEntity<Page<Product>> productwithPage(@PathVariable int offset, @PathVariable int pageSize) {
+		Page<Product> list = this.productService.productwithPage(offset, pageSize);
+		return new ResponseEntity<Page<Product>>(list,HttpStatus.OK);
+	}
 }
