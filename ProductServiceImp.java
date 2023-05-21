@@ -93,4 +93,12 @@ public class ProductServiceImpl implements ProductService {
 	public Page<Product> productwithPage(int offset, int pageSize) {
 		Page<Product> product = this.productRepository.findAll(PageRequest.of(offset, pageSize));
 		return product;
+		
+	public Page<Product> productwithPageShort(int offset, int pageSize,String field) {
+		Page<Product> product = this.productRepository.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(field)));
+		return product;
+
+	}
+	
+		
 }
