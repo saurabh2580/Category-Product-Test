@@ -1,53 +1,64 @@
-
 package com.api.nimapinfotechTest.service.imp;
 
-import java.util.List;
+import com.api.nimapinfotechTest.model.Category;
+import com.api.nimapinfotechTest.repository.CategoryRepository;
+import com.api.nimapinfotechTest.service.CategoryServiceIn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.api.nimapinfotechTest.model.Category;
-import com.api.nimapinfotechTest.repository.CategoryRepo;
-import com.api.nimapinfotechTest.service.CategoryService;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CategoryServiceImp implements CategoryService {
+public class CategoryService implements CategoryServiceIn {
 
 	@Autowired
-	private CategoryRepo repo;
+	private CategoryRepository categoryRepository;
 
 	@Override
-	public List<Category> getAllCategory() {
-		List<Category> list = this.repo.findAll();
-		return list;
+	public List<Category> getAllCategories() {
+		return categoryRepository.findAll();
 	}
 
 	@Override
-	public Category createCategory(Category cat) {
-		this.repo.save(cat);
-		return null;
+	public Category getCategoryById(Long categoryId) throws NotFoundException {
+		Optional<Category> category = categoryRepository.findById(categoryId);
+		if (category.isPresent()) {
+			return category.get();
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	@Override
-	public Category updateCategory(Integer cId, Category updateCat) throws NotFoundException {
-		Category existingCategory = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
-		existingCategory.setCategoryName(updateCat.getCategoryName());
-		existingCategory.setCategoryAbout(updateCat.getCategoryAbout());
-		repo.save(existingCategory);
-		return existingCategory;
+	public Category createCategory(Category category) {
+		return categoryRepository.save(category);
 	}
 
 	@Override
-	public Category getCategoryById(Integer cId) throws NotFoundException {
-		Category cat = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
-		return cat;
+	public Category updateCategory(Long categoryId, Category categoryDetails) throws NotFoundException {
+		Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+		if (optionalCategory.isPresent()) {
+			Category category = optionalCategory.get();
+			category.setName(categoryDetails.getName());
+			category.setAbout(categoryDetails.getAbout());
+			return categoryRepository.save(category);
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 	@Override
-	public void deleteCategory(Integer cId) throws NotFoundException {
-		Category pro = this.repo.findById(cId).orElseThrow(() -> new NotFoundException());
-		repo.delete(pro);
+	public void deleteCategory(Long categoryId) throws NotFoundException {
+		Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+		if (optionalCategory.isPresent()) {
+			Category category = optionalCategory.get();
+			categoryRepository.delete(category);
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 }
