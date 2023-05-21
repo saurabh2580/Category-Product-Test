@@ -17,4 +17,7 @@ public interface ProductService {
 	public ProductDTO updateProduct(Integer productId, ProductDTO productDTO) throws NotFoundException;
 
 	public void deleteProduct(Integer productId) throws NotFoundException;
+
+	public Page<Product> productwithPage(int offset, int pageSize);
+
 }
