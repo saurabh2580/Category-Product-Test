@@ -88,4 +88,9 @@ public class ProductServiceImpl implements ProductService {
 		BeanUtils.copyProperties(productDTO, product);
 		return product;
 	}
+	
+	// Pagination
+	public Page<Product> productwithPage(int offset, int pageSize) {
+		Page<Product> product = this.productRepository.findAll(PageRequest.of(offset, pageSize));
+		return product;
 }
