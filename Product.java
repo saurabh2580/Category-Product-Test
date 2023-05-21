@@ -1,26 +1,32 @@
 package com.api.nimapinfotechTest.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Pro_Id")
-	private Integer pId;
-	private String ProductName;
-	private double ProductPrice;
-	private int ProductStock;
-	private int ProductQuantity;
-	private boolean isAvailable;
-	private String ProductAbout;
+	private Integer id;
+
+	@Column(name = "product_name")
+	private String productName;
+
+	@Column(name = "product_price")
+	private double productPrice;
+
+	@Column(name = "product_stock")
+	private Integer productStock;
+
+	@Column(name = "product_quantity")
+	private Integer productQuantity;
+
+	@Column(name = "is_available")
+	private boolean available;
+
+	@Column(name = "product_about")
+	private String productAbout;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Category category;
@@ -33,83 +39,60 @@ public class Product {
 		this.category = category;
 	}
 
-	public Product() {
-		super();
+	public Integer getId() {
+		return id;
 	}
 
-	public Product(Integer pId, String productName, double productPrice, int productStock, int productQuantity,
-			boolean isAvailable, String productAbout) {
-		super();
-		this.pId = pId;
-		ProductName = productName;
-		ProductPrice = productPrice;
-		ProductStock = productStock;
-		ProductQuantity = productQuantity;
-		this.isAvailable = isAvailable;
-		ProductAbout = productAbout;
-	}
-
-	public Integer getpId() {
-		return pId;
-	}
-
-	public void setpId(Integer pId) {
-		this.pId = pId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getProductName() {
-		return ProductName;
+		return productName;
 	}
 
 	public void setProductName(String productName) {
-		ProductName = productName;
+		this.productName = productName;
 	}
 
 	public double getProductPrice() {
-		return ProductPrice;
+		return productPrice;
 	}
 
-	public void setProductPrice(double productPrice) {
-		ProductPrice = productPrice;
+	public void setProductPrice(double price) {
+		this.productPrice = price;
 	}
 
-	public int getProductStock() {
-		return ProductStock;
+	public Integer getProductStock() {
+		return productStock;
 	}
 
-	public void setProductStock(int productStock) {
-		ProductStock = productStock;
+	public void setProductStock(Integer productStock) {
+		this.productStock = productStock;
 	}
 
-	public int getProductQuantity() {
-		return ProductQuantity;
+	public Integer getProductQuantity() {
+		return productQuantity;
 	}
 
-	public void setProductQuantity(int productQuantity) {
-		ProductQuantity = productQuantity;
+	public void setProductQuantity(Integer productQuantity) {
+		this.productQuantity = productQuantity;
 	}
 
 	public boolean isAvailable() {
-		return isAvailable;
+		return available;
 	}
 
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
 	public String getProductAbout() {
-		return ProductAbout;
+		return productAbout;
 	}
 
 	public void setProductAbout(String productAbout) {
-		ProductAbout = productAbout;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [pId=" + pId + ", ProductName=" + ProductName + ", ProductPrice=" + ProductPrice
-				+ ", ProductStock=" + ProductStock + ", ProductQuantity=" + ProductQuantity + ", isAvailable="
-				+ isAvailable + ", ProductAbout=" + ProductAbout + "]";
+		this.productAbout = productAbout;
 	}
 
 }
