@@ -1,21 +1,20 @@
 package com.api.nimapinfotechTest.service;
 
+import com.api.nimapinfotechTest.model.dto.ProductDTO;
+
 import java.util.List;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
-import com.api.nimapinfotechTest.model.Product;
-
 public interface ProductService {
 
-	public Product createProduct(Product pro);// new create product
+	public List<ProductDTO> getAllProducts();
 
-	public List<Product> getAllProduct();// get All product
+	public ProductDTO getProductById(Integer productId) throws NotFoundException;
 
-	public Product getProductById(Integer cId) throws NotFoundException; // get product by id
+	public ProductDTO createProduct(ProductDTO productDTO) throws NotFoundException;
 
-	public Product updateProductById(Integer pId, Product updatePro) throws NotFoundException; // update by id
+	public ProductDTO updateProduct(Integer productId, ProductDTO productDTO) throws NotFoundException;
 
-	public void deleteProductById(Integer pId) throws NotFoundException;// delete product by id
-
+	public void deleteProduct(Integer productId) throws NotFoundException;
 }
